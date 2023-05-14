@@ -1,0 +1,958 @@
+html {
+    /* для того, чтобы размеры элементов не росли */
+    box-sizing: border-box;
+}
+
+/* Чтобы у всех элементо размеры были как у родителей */
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+a {
+    /* Чтобы цвет ссылок был как у шрифта всего документа и чтоб не курсивом  */
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+@font-face {
+    font-family: "OpenSans";
+    /* меняем url на local чтобы, если на устройстве уже есть эти шрифты, тогда использовались они */
+    src: local("OpenSans-Regular"),
+        url("../fonts/OpenSansRegular.woff2") format("woff2"),
+        url("../fonts/OpenSansRegular.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "OpenSans";
+    /* меняем url на local чтобы, если на устройстве уже есть эти шрифты, тогда использовались они */
+    src: local("OpenSans-Ligth"),
+        url("../fonts/OpenSansLight.woff2") format("woff2"),
+        url("../fonts/OpenSansLight.woff") format("woff");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "OpenSans";
+    /* меняем url на local чтобы, если на устройстве уже есть эти шрифты, тогда использовались они */
+    src: local("OpenSans-SemiBold"),
+        url("../fonts/OpenSansSemiBold.woff2") format("woff2"),
+        url("../fonts/OpenSansSemiBold.woff") format("woff");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    /* min-width: 1200px; */
+    min-width: 320px;
+    font-family: "OpenSans", sans-serif;
+    font-weight: 400;
+}
+
+/* задаём переменную для отступов между элементами для дальнейшего применения в формуле */
+:root {
+    --gap: 30px;
+}
+
+/* glob */
+
+/* Для сброса визуальных атрибутов списков */
+.list-reset {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Для сброса стилей кнопок */
+.btn-reset {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/* Дополнительный класс */
+.flex {
+    display: flex;
+}
+
+/* Дополнительный класс для всех секций */
+.container {
+    max-width: 1200px;
+    padding: 0 15px;
+    /* margin: 0 auto центрирует контент на больших экранах */
+    margin: 0 auto;
+    /* чтобы блок занимал 100% экрана, но не больше 1200px */
+    width: 100%;
+}
+
+
+
+.section-title {
+    margin: 0;
+    margin-bottom: 40px;
+    font-weight: 300;
+    font-size: 36px;
+    line-height: 130%;
+    color: #1C1C1C;
+}
+
+.section-descr {
+    margin: 0;
+    margin-bottom: 50px;
+    color: #787878;
+}
+
+.section-offset {
+    padding-top: 87px;
+    padding-bottom: 160px;
+}
+
+/* Header */
+
+.header {
+    width: 100%
+    border-bottom: 1px solid #c4c4c4;
+    padding: 36px 0;
+    background-color: #fff;
+}
+
+.header__container {
+    align-items: center;
+}
+
+.header__logo {
+    margin-right: auto;
+}
+
+.header__nav {
+    margin-right: 52px;
+}
+
+.nav__item:not(:last-child) {
+    margin-right: 52px;
+}
+
+.nav__link {
+    position: relative;
+    font-weight: 600;
+    color: #1C1C1C;
+    font-size: 15px;
+    transition: color 0.3s ease-in-out;
+}
+
+.nav__link:focus {
+    outline-offset: 2px;
+    outline: 1px solid #71A7E2;
+}
+
+.nav__link:hover {
+    color: #71A7E2;
+}
+
+.nav__link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #3474BA;
+    opacity: 0;
+    transition: opasity 0.3s ease-in-out;
+}
+
+.nav__link:active {
+    color: #3172B9;
+    outline: none;
+}
+
+.nav__link:active::after {
+    opacity: 1;
+}
+
+.btn {
+    /* "position: relative;" - для абсолютного позиционирования,
+    когда делаем псевдоэлементы */
+    position: relative;
+    /*"outline: none;" - Аутлайн не может закруглять бордер */
+    outline: none;
+    border-radius: 3px;
+    padding: 15px 35px;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 15px;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: #3172B9;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* ПСЕВДОКЛАССЫ ДЛЯ КНОПОК */
+.btn::after {
+    /* Всегда указываем content (даже если пустой) */
+    content: "";
+    position: absolute;
+    /* (top, left, right и bottom)= 0 - для того чтоб псевдоэлемент растянуть
+    на весь родитель (на всю кнопку), а чтобы выйти за границы кнопки, пишем -3px */
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    /* border-radius: inherit; - чтобы радиус наследовался от родителя (от кнопки) */
+    border-radius: inherit;
+    border: 1px solid #3172B9;
+    /* opacity: 0; - для скрытия сделанной обводки */
+    opacity: 0;
+    outline: none;
+    transition: opacity 0.3s ease-in-out;
+
+}
+
+/* Для видимости обводки при выделении мышью */
+.btn:focus::after {
+    opacity: 1;
+}
+
+/* Для изменения цвета на более светлый при наведении мыши на кнопку */
+.btn:hover {
+    background-color: #71A7E2;
+}
+
+/* Для изменения цвета на более тёмный при нажатии на кнопку */
+.btn:active {
+    background-color: #0E3B6C;
+}
+
+/* Отменяем обводку для состояния "active" */
+.btn:active::after {
+    opacity: 0;
+}
+
+/* .Hero */
+
+.hero {
+    padding-top: 100px;
+    padding-bottom: 150px;
+    background-image: url(../img/hero-bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.hero__content {
+    width: 50%;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.hero__title {
+    margin: 0;
+    margin-bottom: 25px;
+    font-weight: 300;
+    font-size: 40px;
+    line-height: 130%;
+}
+
+.hero__descr {
+    margin: 0px;
+    margin-bottom: 34px;
+    font-size: 16px;
+    line-height: 155%;
+    color: #787878;
+}
+
+.hero__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero__btn {
+    margin-bottom: 14px;
+    min-width: 250px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 14px;
+}
+
+.hero__secure {
+    font-size: 11px;
+    line-height: 155%;
+    color: #787878;
+    text-transform: uppercase;
+    background-image: url(../img/secure.svg);
+    background-position: left center;
+    background-size: 14px 17px;
+    background-repeat: no-repeat;
+    padding-left: 30px;
+}
+
+/* Services */
+
+.services {
+    border-bottom: 1px solid #E4E4E4;
+}
+
+.services-title {
+    text-align: center;
+}
+
+.services-descr {
+    text-align: center;
+}
+
+/* .services-item {
+    border: 1px solid #E4E4E4;
+    border-radius: 5px;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 30px;
+    width: 270px;
+    transition: all 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+} */
+
+/* переменная количества карточек  */
+.services-list {
+    --offsets: 3;
+/* для отступов между карточками вызываем значение gap, которое равно переменной --gap (30px)  */
+    gap: var(--gap);
+    /* для переноса карточек */
+    flex-wrap: wrap;
+}
+
+.services-item {
+    border: 1px solid #E4E4E4;
+    border-radius: 5px;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 30px;
+    /* для адаптивности задаём ширину блоков (карточек) через формулу */
+    /* width: 270px; */
+    width: calc((100% - (var(--gap) * var(--offsets))) / (var(--offsets) + 1));
+    /* transition: all 0.3s ease-in-out; */
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+} 
+
+/* после применения формулы значение margin не нужно */
+/* .services-item:not(:nth-child(4n)) {
+    margin-right: 30px;
+} */
+
+/* Для изменения цвета при наведении мыши. Далее используем вложенность
+для "hover" элементов карточки при помощи пробела между классами
+(переходим к "services-item-title" */
+.services-item:hover {
+    border-color: #3172B9;
+    background-color: #3172B9;
+}
+
+/* В html в svg-картинках меняем значение "fill" на "none", а в css
+    подставляем цвет из проэкта. Затем переходим к родительскому элементу.
+    В данном случае - "servises-item" и добавляем к нему "hover" */
+.services-item-icon {
+    fill:#3172B9;
+    margin-bottom: 25px;
+    transition: fill 0.3s ease-in-out;
+}
+
+.services-item:hover .services-item-icon { 
+    fill: #fff;
+}
+
+.services-item-title {
+    margin: 0;
+    margin-bottom: 15px;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 130%;
+    text-align: center;
+    color: #1C1C1C;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Меняем "hover" заголовка (при наведении мыши заголовок становится белым.
+Таким же образом и с другими элементами карточки */
+.services-item:hover .services-item-title {
+    color: #fff;
+}
+
+.services-item-descr {
+    margin: 0;
+    font-size: 14px;
+    line-height: 150%;
+    text-align: center;
+    color: #787878;
+    transition: color 0.3s ease-in-out;
+}
+
+.services-item:hover .services-item-descr {
+    color: #fff;
+}
+
+/* Articles */
+
+.articles {
+    border-bottom: 1px solid #DADADA;
+}
+
+.articles-list {
+    flex-wrap: wrap;
+    --offsets: 1;
+    gap: var(--gap);
+}
+
+.articles-item {
+    /* margin-bottom: 30px; */
+    width: calc((100% - (var(--offsets) * var(--gap))) / (var(--offsets) + 1 ));
+}
+
+
+.blog-preview {
+    /* ДЛЯ ОБРЕЗАНИЯ КАРТИНОК БОРДЕРОМ */
+    overflow: hidden;
+    border: 1px solid #E4E4E4;
+    border-radius: 5px;
+    height: 100%;
+
+}
+
+/* Новое!!! Для картинок */
+.blog-preview-image {
+    object-fit: cover;
+}
+
+.blog-preview-text {
+    padding: 30px;
+}
+
+.blog-preview-time {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 10px;
+    line-height: 150%;
+    color: #787878;
+    transition: color 0.3s ease-in-out;
+}
+
+.blog-preview-title {
+    margin: 0;
+    margin-bottom: 15px;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 130%;
+    color: #1C1C1C;
+    transition: color 0.3s ease-in-out;
+}
+
+.blog-preview-descr {
+    margin: 0;
+    max-width: 210px;
+    font-size: 14px;
+    line-height: 150%;
+    color: #787878;
+    transition: color 0.3s ease-in-out;
+}
+
+.blog-preview-link {
+    display: flex;
+    position: relative;
+    width: 100%;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Псевдокласс "focus" для секции Articles */
+
+.blog-preview-link:focus {
+    background-color: #71A7E2;
+}
+
+.blog-preview-link:focus .blog-preview-title {
+    color: #fff;
+}
+
+.blog-preview-link:focus .blog-preview-descr {
+    color: #fff;
+}
+
+.blog-preview-link:focus .blog-preview-time {
+    color: #fff;
+}
+
+/* Псевдокласс "hover" для секции Articles */
+
+.blog-preview-link:hover {
+    background-color: #3172B9;
+}
+
+.blog-preview-link:hover .blog-preview-title {
+    color: #fff;
+}
+
+.blog-preview-link:hover .blog-preview-descr {
+    color: #fff;
+}
+
+.blog-preview-link:hover .blog-preview-time {
+    color: #fff;
+}
+
+/* Псевдокласс "Active" для секции Articles */
+
+.blog-preview-link:active {
+    background-color: #0E3B6C;
+}
+
+.blog-preview-link:active .blog-preview-title {
+    color: #fff;
+}
+
+.blog-preview-link:active .blog-preview-descr {
+    color: #fff;
+}
+
+.blog-preview-link:active .blog-preview-time {
+    color: #fff;
+}
+
+
+/* clients */
+
+.clients {
+    border-bottom: 1px solid #DADADA;
+}
+
+.clients-list {
+    flex-wrap: wrap;
+    --offsets: 2;
+    gap: var(--gap);
+}
+
+.clients-item {
+    flex-direction: column;
+    width: calc((100% - (var(--gap)) * var(--offsets)) / (var(--offsets) + 1));
+    padding: 50px 36px;
+    padding-bottom: 30px;
+    border: 1px solid #E4E4E4;
+}
+
+.clients-item-descr {
+    margin: 0;
+    margin-bottom: 30px;
+    font-size: 14px;
+    line-height: 180%;
+    color: #787878;
+}
+
+.clients-user {
+    margin-top: auto;
+    align-items: center;
+    border-top: 1px solid #DADADA;
+    width: 100%;
+    padding-top: 28px;
+}
+
+.clients-avatar {
+    /* "Flex-shrink: 0;" - чтобы изображение не сжималось */
+    flex-shrink: 0;
+    width: 67px;
+    margin-right: 17px;
+}
+
+/* Для того чтобы применить стили только для изображения данного дива */
+.clients-avatar img {
+    width: 100%;
+    height: 100%;
+    border: 2px solid #3172B9;
+    border-radius: 100%;
+}
+
+.clients-name {
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 180%;
+    color: #1C1C1C;
+}
+
+.clients-post {
+    font-size: 14px;
+    line-height: 180%;
+    color: #787878;
+}
+
+/* contacts */
+
+.contacts {
+    border-bottom: 1px solid #DADADA;
+}
+
+.contacts-adress {
+    font-style: normal;
+}
+
+.contacts-list {
+    --offsets: 2;
+    flex-wrap: wrap;
+    gap: var(--gap);
+}
+
+.contacts-item {
+    flex-direction: column;
+    width: calc((100% - (var(--gap)) * var(--offsets)) / (var(--offsets) + 1));
+    /* Для позиционирования изображений (бекграунда) */
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: 29px 29px;
+    padding-top: 48px;
+    /* padding-right: auto; */
+}
+
+.contacts-item-address {
+    background-image: url(../img/location_on.svg)
+}
+
+.contacts-item-call {
+    background-image: url(../img/phone.svg);
+}
+
+.contacts-item-mail {
+    background-image: url(../img/mail.svg);
+}
+
+.contacts-item-caption {
+    margin-bottom: 30px;
+    font-size: 17px;
+    line-height: 180%;
+    color: #1C1C1C;
+}
+
+.contacts-item-text {
+    margin: 0;
+    width: 215px;
+    font-size: 14px;
+    line-height: 180%;
+    color: #787878;
+}
+
+.contacts-item-link {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 180%;
+    color: #787878;
+    transition: color 0.3s ease-in-out;
+}
+
+.contacts-item-link:focus {
+    outline: 1px solid #71A7E2;
+}
+
+.contacts-item-link:hover {
+    color: #71A7E2;
+}
+
+.contacts-item-link:active {
+    outline: none;
+    color:#0E3B6C;
+}
+
+/* .contacns-phone {
+    padding-right: auto; 
+}
+
+.contacts-mail {
+    padding: auto;
+} */
+
+/* Псевдоклассы для секции Contacts */
+
+
+
+/* Join-us */
+.join-us {
+    border-bottom: 1px solid #c4c4c4;
+}
+
+.join-us-title {
+    text-align: center;
+}
+
+.join-us-descr {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form {
+    padding-left: 55px;
+    padding-right: 55px;
+}
+
+.form-input {
+    border: 1px solid #DADADA;
+    border-radius: 100px;
+    padding-left: 28px;
+    width: 251px;
+    height: 60px;
+    transform: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+/* у нижнего ряда нет margin-bottom */
+/* .form-input:nth-child(-n+2) {
+    margin-bottom: 19px;
+} */
+
+/* Псевдоклассы для input-ов */
+.form-input:focus {
+    outline: none;
+    border-color: #71A7E2;
+    background-color: rgba(113, 167, 226, 0.2);
+}
+
+.form-input:hover {
+    border-color: #71A7E2;
+}
+
+.form-input:active {
+    border-color: #0E3B6C;
+}
+
+.form-select {
+    border: 1px solid #DADADA;
+    /* box-sizing: border-box; */
+    border-radius: 100px;
+    padding-left: 28px;
+    width: 251px;
+    height: 60px;
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: #71A7E2;
+    background-color: rgba(113, 167, 226, 0.2);
+}
+
+.form-select:hover {
+    border-color: #71A7E2;
+}
+
+.form-select:active {
+    border-color: #0E3B6C;
+}
+
+.form-textarea {
+    width: 100%;
+    height: 100%;
+    min-height: 130px;
+    resize: none;
+    border: 1px solid #DADADA;
+    border-radius: 20px;
+    /* чтобы не изменялся размер блока */
+    padding: 15px 28px;
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+.form-textarea:focus {
+    outline: none;
+    border-color: #71A7E2;
+    background-color: rgba(113, 167, 226, 0.2);
+}
+
+.form-textarea:hover {
+    border-color: #71A7E2;
+}
+
+.form-textarea:active {
+    border-color: #0E3B6C;
+}
+
+.form-bottom {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 19px;
+}
+
+.form-left {
+    width: 49%;
+    display: flex;
+    /* при переполнении для переноса */
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.form-right {
+    width: 49%;
+}
+
+.form-btn {
+    min-width: 230px;
+    padding-top: 21px;
+    padding-bottom: 21px;
+    border-radius: 50px;
+    margin-bottom: 9px;
+}
+
+.form-check {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #787878;
+}
+
+/* стили для тега "input" внутри класса */
+.form-check input {
+    margin-right: 8px;
+}
+
+/* стили для тега "a" внутри класса */
+.form-check a {
+    color: #3172B9;
+    border-bottom: 1px solid #3172B9;
+}
+
+/* footer */
+
+.footer {
+    padding: 42px 0;
+}
+
+.footer-copy {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #787878;
+}
+
+.footer-link {
+    position: relative;
+    font-size: 12px;
+    color: #787878;
+    transition: color 0.3s ease-in-out;
+}
+
+.footer-link:focus {
+    outline-offset: 2px;
+    outline: 1px solid #71A7E2;
+}
+
+.footer-link:hover {
+    color: #71A7E2;
+}
+
+.footer-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #3474BA;
+    opacity: 0;
+    transition: opasity 0.3s ease-in-out;
+}
+
+.footer-link:active {
+    color: #3172B9;
+    outline: none;
+}
+
+.footer-link:active::after {
+    opacity: 1;
+}
+
+.footer-container {
+    align-items: center;
+    /* чтобы два дива прижались к разным сторонам */
+    justify-content: space-between;
+}
+
+
+.footer-left,
+.footer-right {
+    align-items: center;
+}
+
+.footer-logo {
+    margin-right: 25px;
+}
+
+.nav__item:not(:last-child) {
+    margin-right: 28px;
+}
+
+.footer__nav {
+    margin-right: 56px;
+}
+
+.social-item:not(:last-child) {
+    margin-right: 32px;
+}
+
+.social-link {
+    display: flex;
+    width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-link svg {
+    fill: #000;
+    transition: fill 0.3s ease-in-out, stroke 0.3s ease-in-out;
+}
+
+.social-link-mail svg {
+    fill: transparent;
+    stroke: #000;
+}
+
+.social-link:focus {
+    outline-offset: 2px;
+    outline: 1px solid #71A7E2;
+}
+
+.social-link:hover svg {
+    fill: #71A7E2;
+}
+
+.social-link-mail:hover svg {
+    fill:transparent;
+    stroke: #71A7E2;
+}
+
+.social-link:active svg {
+    fill: #3172B9;
+}
+
+.social-link-mail:active svg {
+    fill:transparent;
+    stroke: #3172B9;
+}
+
+.burger {
+    display: none;
+}

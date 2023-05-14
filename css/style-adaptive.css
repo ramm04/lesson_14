@@ -1,0 +1,63 @@
+body {
+    /* min-width: 1200px; */
+    /* выставляем min-width: 320px - как для мобильников */
+    min-width: 320px;
+    font-family: "OpenSans", sans-serif;
+    font-weight: 400;
+}
+
+/* задаём переменную для отступов между элементами для дальнейшего применения в формуле */
+:root {
+    --gap: 30px;
+}
+
+.container {
+    /* width: 1200px; */
+    max-width: 1200px;
+    /* padding не менять */
+    padding: 0 15px;
+    /* margin: 0 auto центрирует контент на больших экранах */
+    margin: 0 auto;
+    /* чтобы блок занимал 100% экрана, но не больше 1200px */
+    width: 100%;
+}
+
+                           /* Section SERVICES */
+
+.services-item {
+    border: 1px solid #E4E4E4;
+    border-radius: 5px;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 30px;
+    /* для адаптивности задаём ширину блоков (карточек) через формулу */
+    /* width: 270px; */
+    width: calc((100% - (30px * 3)) / 4);
+    /* transition: all 0.3s ease-in-out; */
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+/* переменная количества карточек  */
+.services-list {
+    --offsets: 3;
+    /* для отступов между карточками вызываем значение gap, которое равно переменной --gap (30px)  */
+    gap: var(--gap);
+    /* для переноса карточек */
+    flex-wrap: wrap;
+}
+
+/* переписываем значение ширины width для карточек применяя --offsets
+   вместо конкретного количества карточек и отступов и переменную для отступов*/
+.services-item {
+    border: 1px solid #E4E4E4;
+    border-radius: 5px;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 30px;
+    /* для адаптивности задаём ширину блоков (карточек) через формулу */
+    /* width: 270px; */
+    width: calc((100% - (var(--gap) * var(--offsets))) / (var(--offsets) + 1));
+    /* transition: all 0.3s ease-in-out; */
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+} 
+
